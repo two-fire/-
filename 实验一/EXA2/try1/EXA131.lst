@@ -1,0 +1,81 @@
+Microsoft (R) Macro Assembler Version 6.11		    03/31/20 18:01:09
+tempfile.asm						     Page 1 - 1
+
+
+				;FILENAME: EXA132.ASM
+				;统计字符串中B到E的个数，并二进制显示在屏幕
+				.586
+ 0000				DATAS SEGMENT USE16
+ 0000 49 42 43 44		BUF DB 'IBCD' ;自定义字符串
+ 0004 = 0004			LEN EQU $-BUF;字符串长度
+ 0004				DATAS ENDS
+ 0000				CODES SEGMENT USE16
+				    ASSUME CS:CODES,DS:DATAS
+ 0000  B8 ---- R		START:  MOV AX,DATAS
+ 0003  8E D8				    MOV DS,AX
+ 0005  BB 0000 R			    MOV BX,OFFSET BUF
+ 0008  B9 0004			 	    MOV CX,LEN
+ 000B  B2 00				    MOV DL,0;符合条件的字符个数
+ 000D  80 3F 42			LAST:   CMP BYTE PTR[BX],42H
+ 0010  72 06				    JC  NO
+ 0012  80 3F 45				    CMP BYTE PTR[BX],45H
+ 0015  77 01				    JA  NO
+ 0017  42				    INC DX
+ 0018  43			NO:     INC BX
+ 0019  E2 F2					LOOP LAST	    
+ 001B  E8 000A			        CALL DISP
+ 001E  B2 42			        MOV DL,42H
+ 0020  B4 02			        MOV AH,2
+ 0022  CD 21				    INT 21H	
+ 0024  B4 4C				    MOV AH,4CH
+ 0026  CD 21				    INT 21H	
+ 0028				DISP PROC
+ 0028  B9 0008				    MOV CX,8
+ 002B  B0 30			SHOW:	MOV AL,'0'
+ 002D  D0 E2					SAL DL,1
+ 002F  72 02					JC ONEDIS
+ 0031  2C 01					SUB AL,1
+ 0033  04 01			ONEDIS: ADD AL,1
+ 0035  B4 0E					MOV AH,0EH
+ 0037  CD 10				    INT 10H	
+ 0039  E2 F0				    LOOP SHOW
+ 003B  C3					RET
+ 003C				DISP ENDP
+ 003C				CODES ENDS
+				    END START
+
+Microsoft (R) Macro Assembler Version 6.11		    03/31/20 18:01:09
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 003C	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0004	  Para	  Private 
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+DISP . . . . . . . . . . . . . .	P Near	 0028	  CODES	Length= 0014 Public
+  SHOW . . . . . . . . . . . . .	L Near	 002B	  CODES	
+  ONEDIS . . . . . . . . . . . .	L Near	 0033	  CODES	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+BUF  . . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+LAST . . . . . . . . . . . . . .	L Near	 000D	  CODES	
+LEN  . . . . . . . . . . . . . .	Number	 0004h	 
+NO . . . . . . . . . . . . . . .	L Near	 0018	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors
