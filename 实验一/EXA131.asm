@@ -1,9 +1,9 @@
 ;FILENAME: EXA132.ASM
-;Í³¼Æ×Ö·û´®ÖÐBµ½EµÄ¸öÊý£¬²¢¶þ½øÖÆÏÔÊ¾ÔÚÆÁÄ»
+;ç»Ÿè®¡å­—ç¬¦ä¸²ä¸­Båˆ°Eçš„ä¸ªæ•°ï¼Œå¹¶äºŒè¿›åˆ¶æ˜¾ç¤ºåœ¨å±å¹•
 .586
 DATAS SEGMENT USE16
-BUF DB 'IBCD' ;×Ô¶¨Òå×Ö·û´®
-LEN EQU $-BUF;×Ö·û´®³¤¶È
+BUF DB 'IBCD' ;è‡ªå®šä¹‰å­—ç¬¦ä¸²
+LEN EQU $-BUF;å­—ç¬¦ä¸²é•¿åº¦
 DATAS ENDS
 CODES SEGMENT USE16
     ASSUME CS:CODES,DS:DATAS
@@ -11,7 +11,7 @@ START:  MOV AX,DATAS
 	    MOV DS,AX
 	    MOV BX,OFFSET BUF
  	    MOV CX,LEN
-	    MOV DL,0;·ûºÏÌõ¼þµÄ×Ö·û¸öÊý
+	    MOV DL,0;ç¬¦åˆæ¡ä»¶çš„å­—ç¬¦ä¸ªæ•°
 LAST:   CMP BYTE PTR[BX],42H
 	    JC  NO
 	    CMP BYTE PTR[BX],45H
